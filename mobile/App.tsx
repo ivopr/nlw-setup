@@ -1,32 +1,25 @@
 import { Inter_400Regular, Inter_600SemiBold, Inter_700Bold, Inter_800ExtraBold, useFonts } from "@expo-google-fonts/inter";
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'react-native';
 import { Loading } from "./src/components/Loading";
+import './src/lib/dayjs';
+import { Home } from "./src/screens/Home";
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    Inter_400Regular,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold
-  });
+	const [fontsLoaded] = useFonts({
+		Inter_400Regular,
+		Inter_600SemiBold,
+		Inter_700Bold,
+		Inter_800ExtraBold
+	});
 
-  if (!fontsLoaded) {
-    return <Loading />
-  }
+	if (!fontsLoaded) {
+		return <Loading />
+	}
 
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-    </View>
-  );
+	return (
+		<>
+			<Home />
+			<StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+		</>
+	);
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
