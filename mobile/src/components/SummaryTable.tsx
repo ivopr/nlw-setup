@@ -1,6 +1,6 @@
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Alert, ScrollView, Text, View } from "react-native";
 import { api } from "../lib/axios";
 import { generateDatesFromYearBeginning } from "../utils/generateDatesFromYearBeginning";
@@ -24,7 +24,7 @@ export function SummaryTable() {
 	const [summary, setSummary] = useState<Summary>([]);
 	const [isFetching, setIsFetching] = useState(true);
 
-	useEffect(() => {
+	useFocusEffect(useCallback(() => {
 		setIsFetching(true);
 
 		api
@@ -35,7 +35,8 @@ export function SummaryTable() {
 				Alert.alert("Ops.", "Não foi possível carregar o sumário de hábitos")
 			})
 			.finally(() => setIsFetching(false));
-	}, []);
+		return () => { }
+	}, []));
 
 	if (isFetching) {
 		return <Loading />;
