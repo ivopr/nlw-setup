@@ -10,4 +10,11 @@ app.register(appRoutes);
 app.listen({
 	host: "0.0.0.0",
 	port: 3333
-}).then(() => console.log("App running")).catch(console.error)
+},
+	(error, address) => {
+		if (error) {
+			console.error(error);
+		}
+		console.log(`App running on ${address}`)
+	}
+)
