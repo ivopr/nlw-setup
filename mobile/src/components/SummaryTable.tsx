@@ -1,3 +1,5 @@
+import { useNavigation } from "@react-navigation/native";
+import dayjs from "dayjs";
 import { ScrollView, Text, View } from "react-native";
 import { generateDatesFromYearBeginning } from "../utils/generateDatesFromYearBeginning";
 import { DAY_SIZE, HabitDay } from "./HabitDay";
@@ -8,6 +10,8 @@ const minimumSummaryDatesSize = 13 * 7;
 const amountOfDaysToFill = minimumSummaryDatesSize - summaryDates.length;
 
 export function SummaryTable() {
+	const { navigate } = useNavigation();
+
 	return (
 		<View className="flex-1">
 			<View className="flex-row mt-6 mb-2 justify-evenly">
@@ -31,7 +35,12 @@ export function SummaryTable() {
 				}}
 			>
 				<View className="flex-row flex-wrap justify-evenly items-center">
-					{summaryDates.map(date => <HabitDay key={date.toString()} />)}
+					{summaryDates.map(date => (
+						<HabitDay
+							key={date.toString()}
+							onPress={() => navigate("habit", { date: dayjs(date, { utc: true }).startOf('day').toISOString() })}
+						/>)
+					)}
 					{amountOfDaysToFill > 0 ? Array.from({ length: amountOfDaysToFill }).map((_, i) => (
 						<View
 							key={i}
