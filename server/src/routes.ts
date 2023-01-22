@@ -31,13 +31,13 @@ export async function appRoutes(app: FastifyInstance) {
 			}
 		});
 
-		return habit
+		return habit;
 	});
 
 	app.get('/day', async (request) => {
 		const getDayParams = z.object({
 			date: z.coerce.date(),
-		})
+		});
 
 		const { date } = getDayParams.parse(request.query)
 
@@ -47,7 +47,7 @@ export async function appRoutes(app: FastifyInstance) {
 		const possibleHabits = await prisma.habit.findMany({
 			where: {
 				created_at: {
-					lte: date,
+					lte: parsedDate.toDate(),
 				},
 				weekDays: {
 					some: {
@@ -67,7 +67,7 @@ export async function appRoutes(app: FastifyInstance) {
 		})
 
 		const completedHabits = day?.dayHabits.map(dayHabit => {
-			return dayHabit.habit_id
+			return dayHabit.habit_id;
 		})
 
 		return {
@@ -146,7 +146,7 @@ export async function appRoutes(app: FastifyInstance) {
 					JOIN habits H
 						ON H.id = HWD.habit_id
 					WHERE
-						HWD.week_day = cast(strftime('%w', D.date / 1000, 'unixepoch') as int)
+						HWD.week_day = cast(strftime('%w', D.date/1000, 'unixepoch') as int)
 						AND H.created_at <= D.date
 				) as amount
 			FROM days D
