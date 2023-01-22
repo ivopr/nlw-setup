@@ -38,7 +38,7 @@ export const NewHabitForm = () => {
 			<label className="font-semibold leading-tight" htmlFor="title">Qual seu comprometimento?</label>
 			<input
 				autoFocus
-				className="p-4 rounded-lg mt-3 bg-zinc-800 text-white placeholder:text-zinc-400"
+				className="p-4 rounded-lg mt-3 bg-zinc-800 text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 focus:ring-offset-zinc-900"
 				id="title"
 				onChange={event => setTitle(event.target.value)}
 				placeholder="ex.: Exercicíos, dormir bem, etc..."
@@ -50,13 +50,13 @@ export const NewHabitForm = () => {
 			<div className="flex flex-col gap-2 mt-3">
 				{weekDays.map((weekDay, i) => (
 					<Checkbox.Root
-						className="flex items-center gap-3 group"
+						className="flex items-center gap-3 group focus:outline-none"
 						key={weekDay}
 						checked={selectedWeekDays.includes(i)}
 						onCheckedChange={() => onToggleWeekDay(i)}
 					>
 						<div
-							className="h-8 w-8 rounded-lg flex items-center justify-center bg-zinc-900 border-2 border-zinc-800 group-data-[state=checked]:bg-green-600 group-data-[state=checked]:border-green-500"
+							className="h-8 w-8 rounded-lg flex items-center justify-center bg-zinc-900 border-2 border-zinc-800 group-data-[state=checked]:bg-green-600 group-data-[state=checked]:border-green-500 transition-colors group-focus:ring-2 group-focus:ring-violet-700 group-focus:ring-offset-2 group-focus:ring-offset-zinc-900"
 						>
 							<Checkbox.Indicator>
 								<Check size={20} color="white" />
@@ -71,7 +71,7 @@ export const NewHabitForm = () => {
 				))}
 			</div>
 			<button
-				className="mt-6 rounded-lg p-4 gap-3 flex items-center justify-center font-semibold bg-green-600 hover:bg-green-500"
+				className="mt-6 rounded-lg p-4 gap-3 flex items-center justify-center font-semibold bg-green-600 hover:bg-green-500 transition-colors focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-offset-2 focus:ring-offset-zinc-900"
 				type="submit"
 			>
 				<Check size={20} weight="bold" /> Confirmar

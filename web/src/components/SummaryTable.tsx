@@ -18,9 +18,14 @@ type Summary = {
 
 export const SummaryTable = () => {
 	const [summary, setSummary] = useState<Summary>([]);
+	const [isFetching, setIsFetching] = useState(true);
 
 	useEffect(() => {
-		api.get<Summary>("/summary").then(response => setSummary(response.data));
+		setIsFetching(true);
+		api
+			.get<Summary>("/summary")
+			.then(response => setSummary(response.data))
+			.finally(() => setIsFetching(false));
 	}, []);
 
 	return (
@@ -36,23 +41,27 @@ export const SummaryTable = () => {
 				))}
 			</div>
 
-			<div className="grid grid-flow-col grid-rows-7 gap-3">
-				{summaryDates.map((date) => {
-					const dayInSummary = summary.find(day => dayjs(date, { utc: true }).isSame(day.date, 'day'));
+			{isFetching ? (
+				<div>Loading...</div>
+			) : (
+				<div className="grid grid-flow-col grid-rows-7 p-2 gap-3 overflow-x-auto">
+					{summaryDates.map((date) => {
+						const dayInSummary = summary.find(day => dayjs(date, { utc: true }).isSame(day.date, 'day'));
 
-					return (
-						<HabitDay
-							amount={dayInSummary?.amount}
-							completed={dayInSummary?.completed}
-							date={date}
-							key={date.toString()}
-						/>
-					)
-				})}
-				{amountOfDaysToFill > 0 ? Array.from({ length: amountOfDaysToFill }).map((_, i) => (
-					<div key={i} className="w-10 h-10 bg-zinc-900 border-2 border-zinc-800 rounded-lg opacity-40 cursor-not-allowed" />
-				)) : null}
-			</div>
+						return (
+							<HabitDay
+								amount={dayInSummary?.amount}
+								defaultCompleted={dayInSummary?.completed}
+								date={date}
+								key={date.toString()}
+							/>
+						)
+					})}
+					{amountOfDaysToFill > 0 ? Array.from({ length: amountOfDaysToFill }).map((_, i) => (
+						<div key={i} className="w-10 h-10 bg-zinc-900 border-2 border-zinc-800 rounded-lg opacity-40 cursor-not-allowed" />
+					)) : null}
+				</div>
+			)}
 		</div>
 	)
 }
